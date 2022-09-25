@@ -8,6 +8,14 @@ This application needs to be run on a web server due to CORS policities.
 2. Run `npm install` to install local dependencies
 3. Run `npm run dev` to open the interval dev server.
 
+## More Tasks
+
+- edit entries
+- local storages
+- server
+- datenbank
+- mongoose
+
 ## Task
 
 Ziel: Schreibe eine funktionstüchtige (CLIENT ONLY) To-Do List mit HTML, CSS und Javascript. Das Layout soll grob von diesem Sketch vorgegeben sein: http://sketchtoy.com/70773255
@@ -29,4 +37,4 @@ Du solltest nun To-Do Elemente hinzufügen können und den "erledigt"-Status der
 
 Die optionalen Tasks sind ein wenig um rauszufinden wie dein Stand und Erfahrung ist und was dir an Arbeit gefällt. Du musst Sie nicht machen, aber es wäre im Gespräch schön zu erfahren, wieso/weshalb du dich dazu entschieden hast diese/n Task/s auszulassen oder eben genau diese/n Task zu erledigen. Hat ein wenig mit Präferenzen zu tun.
 
-Wichtige Keywords für den Tasks: HTML, CSS, HTML Elemente per JS ansprechen, JS Eventlistener, HTML Elemente per JS erzeugen, functions, arrays, objects, arrays of objects, array filter
+Wichtige Keywords für den Tasks: HTML, CSS, HTML Elemente per JS ansprechen, JS Eventlistener, HTML Elemente per JS erzeugen, functions, arrays, objects, arrays of objects, array filte

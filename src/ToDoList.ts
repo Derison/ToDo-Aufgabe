@@ -11,7 +11,7 @@ export class ToDoList {
      */
     addItem(item: ToDoItem): void {
         this.list.push(item);
-        // localStorage.setItem('todo-list', JSON.stringify(this.list));
+        localStorage.setItem('list', JSON.stringify(this.list));
         this.renderList();
     }
 
@@ -29,15 +29,43 @@ export class ToDoList {
         doneHtml.innerHTML = "";
         undoneHtml.innerHTML = "";
 
-        this.list.forEach((item: ToDoItem, index: number) => {
+        this.list.forEach((item: ToDoItem) => {
             if (item.isDone()) {
-                doneHtml?.append(item.toItem(index));
+                doneHtml?.append(item.toItem());
                 return;
             }
 
-            undoneHtml?.append(item.toItem(index));
+            undoneHtml?.append(item.toItem());
             return;
         })
+
+        document.querySelectorAll('.todo-item').forEach((item: any) => {
+            item.addEventListener("click", (event: MouseEvent) => {
+                const target: HTMLDivElement|null = event.currentTarget as HTMLDivElement;
+                this.findItem(target.id)?.switchStatus();
+                localStorage.setItem('list', JSON.stringify(this.list));
+                this.renderList();
+            });
+        });
+    }
+
+    /**
+     * Sets a list of ToDoItems as list
+     * 
+     * @param {ToDoItem[]} items 
+     */
+    setToDos(items: ToDoItem[]) {
+        this.list = items;
+    }
+
+    /**
+     * Returns an object by its ID
+     * 
+     * @param {stirng} id 
+     * @returns {ToDoItem|undefined}
+     */
+    findItem(id: string): ToDoItem|undefined {
+        return this.list.find((item: ToDoItem) => item.getId() === id);
     }
 
     /**

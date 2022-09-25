@@ -1,45 +1,51 @@
-import { ToDoList } from "./ToDoList";
-
 export class ToDoItem {
     
+    private id: string;
     private text: string;
     private done: boolean;
-    private list: ToDoList;
 
     /**
+     * @param id The id of the ToDoItem
      * @param text The text of the ToDoItem
      * @param done The status of the ToDoItem
      */
-    constructor(text: string, done: boolean, list: ToDoList) {
+    constructor(id: string, text: string, done: boolean) {
+        this.id = id;
         this.text = text;
         this.done = done;
-        this.list = list;
+    }
+
+    /**
+     * Edits the text of an ToDoItem
+     * 
+     * @param {string} text 
+     */
+    edit(text: string): void {
+        this.text = text;
     }
 
     /**
      * Returns a HTMLDivElement-Object that can be rendered in the frontend
      * 
-     * @param {number} index
      * @returns {HTMLDivElement}
      */
-    toItem(index: number): HTMLDivElement {
+    toItem(): HTMLDivElement {
         const element = document.createElement('div');
         element.className = 'todo-item';
         element.innerHTML = `<p>${this.text}</p>`;
-        element.id = String(index);
-        element.addEventListener("click", (event: MouseEvent) => {
-            const target: HTMLDivElement|null = event.currentTarget as HTMLDivElement;
-
-            if (!target) {
-                throw 'Logic Exception';
-            }
-    
-            const id: number = Number(target.id);
-            this.list.list[id].switchStatus();
-        });
+        element.id = this.id;
         return element;
     }
     
+    /**
+     * Returns the ID of the item
+     * 
+     * @returns {string} 
+     */
+    getId(): string {
+        return this.id;
+    }
+
     /**
      * Toggles the done-status of a ToDo-Item
      * 
@@ -47,7 +53,6 @@ export class ToDoItem {
      */
     switchStatus(): boolean {
         this.done = !this.done;
-        this.list.renderList();
         return this.done;
     }
 
@@ -58,5 +63,13 @@ export class ToDoItem {
      */
     isDone(): boolean {
         return this.done;
+    }
+
+    public static fromJsonString(jsonString: string): ToDoItem[] {
+        let obj: any = JSON.parse(jsonString);
+
+        return obj.map((element: any) => {
+            return new ToDoItem(element.id, element.text, element.done);
+        })
     }
 }
