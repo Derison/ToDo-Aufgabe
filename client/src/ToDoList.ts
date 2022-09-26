@@ -1,3 +1,4 @@
+import { fetch } from "./main";
 import { ToDoItem } from "./ToDoItem";
 
 export class ToDoList {
@@ -11,7 +12,11 @@ export class ToDoList {
      */
     addItem(item: ToDoItem): void {
         this.list.push(item);
-        localStorage.setItem('list', JSON.stringify(this.list));
+        fetch.post('/todoitems', {
+            text: item.text,
+            done: item.done,
+            list: localStorage.getItem('listId')
+        })
         this.renderList();
     }
 
@@ -39,11 +44,48 @@ export class ToDoList {
             return;
         })
 
-        document.querySelectorAll('.todo-item').forEach((item: any) => {
+        document.querySelectorAll('.todo-item p').forEach((item: any) => {
+            item.addEventListener("click", (event: PointerEvent) => {
+                const target: HTMLDivElement|null = (<HTMLElement>event.target).parentNode as HTMLDivElement;
+
+                const item: ToDoItem|undefined = this.findItem(target.id);
+                if (!item) {
+                    throw 'Logical Exception';
+                }
+
+                item.switchStatus();
+
+                fetch.patch(`/todoitems/${target.id}`, {
+                    _id: item.id,
+                    text: item.text,
+                    done: item.done
+                })
+                this.renderList();
+            });
+        });
+
+        document.querySelectorAll('.edit-todo').forEach((item: any) => {
             item.addEventListener("click", (event: MouseEvent) => {
-                const target: HTMLDivElement|null = event.currentTarget as HTMLDivElement;
-                this.findItem(target.id)?.switchStatus();
-                localStorage.setItem('list', JSON.stringify(this.list));
+                const target: HTMLDivElement|null = (<HTMLElement>event.target).parentNode as HTMLDivElement;
+
+                const item: ToDoItem|undefined = this.findItem(target.id);
+                if (!item) {
+                    throw 'Logical Exception';
+                }
+
+                const input: string|null = prompt('Enter new text', item.text);
+                
+                if (!input) {
+                    throw 'Input cannot be empty';
+                }
+
+                item.edit(input);
+                fetch.patch(`/todoitems/${target.id}`, {
+                    _id: item.id,
+                    text: input,
+                    done: item.done
+                })
+
                 this.renderList();
             });
         });

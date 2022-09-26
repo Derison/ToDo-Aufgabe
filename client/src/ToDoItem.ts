@@ -1,8 +1,8 @@
 export class ToDoItem {
     
-    private id: string;
-    private text: string;
-    private done: boolean;
+    public id: string;
+    public text: string;
+    public done: boolean;
 
     /**
      * @param id The id of the ToDoItem
@@ -32,7 +32,7 @@ export class ToDoItem {
     toItem(): HTMLDivElement {
         const element = document.createElement('div');
         element.className = 'todo-item';
-        element.innerHTML = `<p>${this.text}</p>`;
+        element.innerHTML = `<p>${this.text}</p><a href="#" class="edit-todo">EDIT</a>`;
         element.id = this.id;
         return element;
     }
@@ -65,11 +65,17 @@ export class ToDoItem {
         return this.done;
     }
 
+    /**
+     * Creates an array of ToDoItems from a json String
+     * 
+     * @param jsonString 
+     * @returns ToDoItem[]
+     */
     public static fromJsonString(jsonString: string): ToDoItem[] {
         let obj: any = JSON.parse(jsonString);
 
         return obj.map((element: any) => {
-            return new ToDoItem(element.id, element.text, element.done);
+            return new ToDoItem(element._id, element.text, element.done);
         })
     }
 }

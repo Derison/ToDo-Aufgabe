@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { ToDoList } from './ToDoList';
+import mongoose, { Document, Types } from 'mongoose';
+import { ToDoList } from './todolist.schema';
 
 export type ToDoItemDocument = ToDoItem & Document;
 
@@ -12,7 +12,7 @@ export class ToDoItem {
   @Prop()
   done: boolean;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "ToDoList" })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: ToDoList.name })
   list: ToDoList;
 }
 

@@ -4,14 +4,28 @@ import "./css/index.css";
 import { v4 as uuidv4 } from 'uuid';
 import { ToDoItem } from "./ToDoItem";
 import { ToDoList } from "./ToDoList";
-import { run } from "./db";
-
-const button: HTMLElement | null = document.getElementById("add-button");
+import axios from "axios";
 
 const list: ToDoList = new ToDoList();
 
-run().catch(e => console.log(e));
+export const fetch = axios.create({
+    baseURL: 'http://localhost:3000'
+});
 
+const toDoList = await fetch.get('/todolists');
+
+if (!toDoList.data[0]) {
+    throw 'no list found';
+}
+localStorage.setItem('listId', toDoList.data[0]._id);
+
+const itemResponse = await fetch.get('/todoitems');
+
+list.setToDos(ToDoItem.fromJsonString(JSON.stringify(itemResponse.data)));
+list.renderList();
+
+
+const button: HTMLElement | null = document.getElementById("add-button");
 if (!button) {
     throw "Button could not be found";
 }

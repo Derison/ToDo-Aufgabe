@@ -10,3 +10,7 @@ body {
     margin: 10px 0px;
     word-wrap: break-word;
 }
+
+.edit-todo {
+    color: #7eddd3;
+}

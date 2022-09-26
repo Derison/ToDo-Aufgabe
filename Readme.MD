@@ -6,7 +6,9 @@ This application needs to be run on a web server due to CORS policities.
 
 1. Clone the repository
 2. Run `npm install` to install local dependencies
-3. Run `npm run dev` to open the interval dev server.
+3. Run `npm run dev` in `client` direcotry to open the interval dev server.
+4. Run `npm run start` in `server` directory
+5. Execute `docker run --name mongodb -d mongo:latest -p 27017:27017` in the terminal to start a mongodb instance
 
 ## More Tasks
 
